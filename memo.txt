@@ -1,0 +1,145 @@
+import tkinter
+
+# 画面作成
+version = tkinter.Tcl().eval('info patchlevel')
+window = tkinter.Tk()
+window.geometry("400x300")
+window.title("Tkinter version：" + version)
+
+# キャンバス作成
+canvas = tkinter.Canvas(window, bg="#deb887", height=200, width=200)
+# キャンバス表示
+canvas.place(x=0, y=0)
+
+window.mainloop()
+
+
+
+http://pc-chem-basics.blog.jp/archives/24066999.html
+# tkinterのインポート
+import tkinter as tk
+
+#####  関数  #####
+# txtファイルの作成 <---追加したコード
+def newtxt_func():
+    datafile = open("newtxt.txt","w")
+    test = "ok?"
+    datafile.write(test)
+    datafile.close()
+
+#####  GUI  #####
+# ウインドウの作成
+root = tk.Tk()
+# ウインドウのサイズ指定
+root.geometry("350x100")
+
+# Runボタン設置 <---修正したコード
+run_button = tk.Button(root, text = "Run", command = newtxt_func)
+run_button.place(x = 160, y = 40)
+
+# setボタン設置
+set_button = tk.Button(root, text = "Set")
+set_button.place(x = 300, y = 7)
+
+# テキストボックス設置
+input_box = tk.Entry(width = 40)
+input_box.place(x = 10, y = 10)
+
+# ステータスバー設置
+statusbar = tk.Label(root, text =  " No Data!!", bd = 1, relief = tk.SUNKEN, anchor = tk.W)
+statusbar.pack(side = tk.BOTTOM, fill = tk.X)
+
+# ウインドウ状態の維持
+root.mainloop()
+
+
+
+
+import tkinter as tk
+from PIL import Image, ImageDraw, ImageTk
+import math
+
+X = 0
+Y = 1
+Z = 2
+
+X_rotation_angle = 10
+Y_rotation_angle = 0
+Z_rotation_angle = 0
+
+init = 100
+# 原点を中心としてその周りに立方体の各点を配置する
+cube = [[init, init, init], [init, init * -1, init],
+        [init * -1, init * -1, init], [init * -1, init, init],
+        [init, init, init * -1], [init, init * -1, init * -1],
+        [init * -1, init * -1, init * -1], [init * -1, init, init * -1]]
+
+
+# メインウィンドウを作成
+window = tk.Tk()
+window.geometry("600x500")
+window.title("立方体回転")
+
+# キャンバス作成
+canvas = tk.Canvas(window, bg="#ccffff", height=400, width=400)
+canvas.place(x=0, y=0)
+
+
+# cubeイメージ(PIL Image)を作成しキャンバスにセット
+# def draw_cube():
+# cube描画
+im = Image.new('RGB', (350, 350), (255, 204, 204))
+draw = ImageDraw.Draw(im)
+
+# 正方向へシフト
+cube_shift = cube.copy()
+for i, point in enumerate(cube):
+    for j, p in enumerate(point):
+        cube_shift[i][j] = p + 200
+
+# XY面へ投射
+xy_projection = []
+for item in cube_shift:
+    xy_projection.append(tuple(item[:2]))
+
+# 描画
+draw.polygon(xy_projection[-4:], outline=(0, 0, 0))
+for i in range(4):
+    draw.line([xy_projection[i], xy_projection[i+4]], fill=(0, 0, 0))
+draw.polygon(xy_projection[:4], outline=(0, 0, 0))
+
+#
+im = ImageTk.PhotoImage(im)
+canvas.create_image(
+    0,  # X座標
+    0,  # Y座標
+    image=im,
+    anchor=tk.NW
+)
+# canvas.update()
+# print("draw_cube()")
+
+
+# draw_cube()
+
+
+def x_rotate():
+    # X軸回転
+    for i, point in enumerate(cube):
+        # X座標は変更なし
+        # Y座標を更新
+        cube[i][Y] = point[Y] * math.cos(math.radians(X_rotation_angle)) \
+                     - point[Z] * math.sin(math.radians(X_rotation_angle))
+        # Z座標を更新
+        cube[i][Z] = point[Z] * math.cos(math.radians(X_rotation_angle)) \
+                     + point[Y] * math.sin(math.radians(X_rotation_angle))
+
+    # draw_cube()
+    print("x_rotate()")
+
+
+# ボタン作成
+run_button = tk.Button(window, text="X軸回転", command=x_rotate)
+run_button.place(x=450, y=50)
+
+window.mainloop()
