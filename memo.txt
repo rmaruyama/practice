@@ -143,3 +143,38 @@ run_button = tk.Button(window, text="X軸回転", command=x_rotate)
 run_button.place(x=450, y=50)
 
 window.mainloop()
+
+
+
+
+
+        # テキストボックス
+        self.text_box = tk.Entry(self)
+        self.text_box['width'] = 10
+        self.text_box.pack()
+
+        # メッセージ出力
+        self.message = tk.Message(self)
+        self.message.pack()
+
+        # イベントハンドラー内
+        text = self.text_box.get()
+        self.message['text'] = text + '!!'
+
+
+        # 正方向へシフト
+        cube_shift = self.cube.copy()
+        for i, point in enumerate(self.cube):
+            for j, p in enumerate(point):
+                cube_shift[i][j] = p + 200
+        print(id(self.cube))
+        print(id(self.cube[0]))
+        print(self.cube)
+        print(id(cube_shift))
+        print(id(cube_shift[0]))
+        print(cube_shift)
+
+        # XY面へ投射
+        xy_projection = []
+        for item in cube_shift:
+            xy_projection.append(tuple(item[:2]))

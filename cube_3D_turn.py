@@ -1,3 +1,5 @@
+# 立方体のフレームを回転させて表示/画像保存する
+# バグがあるがGUIプログラムの方ができたのでこちらは放置する
 from PIL import Image, ImageDraw
 import math
 
@@ -8,10 +10,6 @@ Z = 2
 im = Image.new('RGB', (400, 400), (255, 255, 255))
 draw = ImageDraw.Draw(im)
 
-# draw.line((350, 200, 450, 100), fill=(255, 255, 0), width=10)
-# draw.line((0, 0, 173, 100), fill=(0, 0, 0))
-# draw.polygon([(50, 0), (100, 50), (0, 50)], outline=(0, 0, 0))
-
 init = 100
 # 原点を中心としてその周りに立方体の各点を配置する
 cube = [[init, init, init], [init, init * -1, init],
@@ -19,7 +17,7 @@ cube = [[init, init, init], [init, init * -1, init],
         [init, init, init * -1], [init, init * -1, init * -1],
         [init * -1, init * -1, init * -1], [init * -1, init, init * -1]]
 
-X_rotation_angle = 10
+X_rotation_angle = 20
 Y_rotation_angle = 0
 Z_rotation_angle = 0
 # X軸回転
@@ -30,7 +28,7 @@ for i, point in enumerate(cube):
                  - point[Z] * math.sin(math.radians(X_rotation_angle))
     # Z座標を更新
     cube[i][Z] = point[Z] * math.cos(math.radians(X_rotation_angle)) \
-                 + point[Y] * math.sin(math.radians(X_rotation_angle))
+                 + point[Y] * math.sin(math.radians(X_rotation_angle))  # ！変更後のpoint[Y]を使ってるのでバグ！
 # Y軸回転
     # X座標を更新
     cube[i][X] = point[X] * math.cos(math.radians(Y_rotation_angle)) \
@@ -38,14 +36,14 @@ for i, point in enumerate(cube):
     # Y座標は変更なし
     # Z座標を更新
     cube[i][Z] = point[Z] * math.cos(math.radians(Y_rotation_angle)) \
-                 - point[X] * math.sin(math.radians(Y_rotation_angle))
+                 - point[X] * math.sin(math.radians(Y_rotation_angle))  # ！変更後のpoint[X]を使ってるのでバグ！
 # Z軸回転
     # X座標を更新
     cube[i][X] = point[X] * math.cos(math.radians(Z_rotation_angle)) \
                  - point[Y] * math.sin(math.radians(Z_rotation_angle))
     # Y座標を更新
     cube[i][Y] = point[Y] * math.cos(math.radians(Z_rotation_angle)) \
-                 + point[X] * math.sin(math.radians(Z_rotation_angle))
+                 + point[X] * math.sin(math.radians(Z_rotation_angle))  # ！変更後のpoint[X]を使ってるのでバグ！
     # Z座標は変更なし
 
 # 正方向へシフト
