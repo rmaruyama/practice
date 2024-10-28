@@ -129,6 +129,7 @@ class Application(tk.Frame):
         self.draw_cube()
         print("z_rotate()")
 
+
 root = tk.Tk()
 root.title('立方体回転')
 root.geometry('420x530')

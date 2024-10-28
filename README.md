@@ -1,5 +1,6 @@
 # practice
 PythonとGit&amp;GitHubの練習用リポジトリ
+他の人に見せることは考慮していない
 
 ## num_count
 - テキストファイル(num_count_input.txt)の中にある各数字(0~9)をカウントし、最後に各数字ごとのカウントを表示する。数字でない文字は無視する。
